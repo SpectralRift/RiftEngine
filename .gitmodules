@@ -1,27 +1,40 @@
 [submodule "modules/Rift.Platform.Desktop.Windows"]
 	path = modules/Rift.Platform.Desktop.Windows
-	url = https://github.com/SpectralRift/Rift.Platform.Desktop.Windows
+	url = https://github.com/SpectralRift/Rift.Platform.Desktop.Windows.git
+	branch = master
 [submodule "modules/Rift.Core.Runtime"]
 	path = modules/Rift.Core.Runtime
-	url = https://github.com/SpectralRift/RiftEngine.Core.Runtime
+	url = https://github.com/SpectralRift/RiftEngine.Core.Runtime.git
+	branch = master
 [submodule "modules/Rift.OnlineSubsystem"]
 	path = modules/Rift.OnlineSubsystem
-	url = https://github.com/SpectralRift/Rift.OnlineSubsystem
+	url = https://github.com/SpectralRift/Rift.OnlineSubsystem.git
+	branch = master
 [submodule "modules/Rift.Runtime.Logging"]
 	path = modules/Rift.Runtime.Logging
-	url = https://github.com/SpectralRift/Rift.Runtime.Logging
+	url = https://github.com/SpectralRift/Rift.Runtime.Logging.git
+	branch = master
 [submodule "modules/Rift.Input"]
 	path = modules/Rift.Input
-	url = https://github.com/SpectralRift/Rift.Input
+	url = https://github.com/SpectralRift/Rift.Input.git
+	branch = master
 [submodule "modules/Rift.Backend.D3D9"]
 	path = modules/Rift.Backend.D3D9
-	url = https://github.com/SpectralRift/Rift.Backend.D3D9
+	url = https://github.com/SpectralRift/Rift.Backend.D3D9.git
+	branch = master
 [submodule "modules/Rift.Backend.OpenGL"]
 	path = modules/Rift.Backend.OpenGL
 	url = https://github.com/SpectralRift/Rift.Backend.OpenGL.git
+	branch = master
 [submodule "modules/Rift.Platform.Console.DKPNX"]
 	path = modules/Rift.Platform.Console.DKPNX
-	url = https://github.com/SpectralRift/Rift.Platform.Console.DKPNX
+	url = https://github.com/SpectralRift/Rift.Platform.Console.DKPNX.git
+	branch = master
 [submodule "modules/Rift.Renderer.SimpleRenderer"]
 	path = modules/Rift.Renderer.SimpleRenderer
-	url = https://github.com/SpectralRift/Rift.Renderer.SimpleRenderer
+	url = https://github.com/SpectralRift/Rift.Renderer.SimpleRenderer.git
+	branch = master
+[submodule "modules/Rift.UI.ImGui"]
+	path = modules/Rift.UI.ImGui
+	url = https://github.com/SpectralRift/Rift.UI.ImGui.git
+	branch = master
