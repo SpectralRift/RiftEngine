@@ -17,11 +17,15 @@ include(cmake/RiftIdentifyModules.cmake)
 
 # internal variables begin
 # RIFT_ACTIVE_MODULES contains a list of all active modules that will be linked with this build of the engine
-set(RIFT_ACTIVE_MODULES Rift.Core.Runtime Rift.Input Rift.Runtime.Logging Rift.Renderer.SimpleRenderer)
+# provide a list of modules in the RIFT_ACTIVE_MODULES variable in order to add them to this list
+set(RIFT_ACTIVE_MODULES ${RIFT_ACTIVE_MODULES} Rift.Core.Runtime Rift.Input Rift.Runtime.Logging Rift.Renderer.SimpleRenderer)
 
 # RIFT_MODULE_PATHS contains a list of all the directories in which we will look for the modules
 set(RIFT_MODULE_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/modules")
 # internal variables end
+
+# remove duplicate modules
+list(REMOVE_DUPLICATES RIFT_ACTIVE_MODULES)
 
 rift_identify_modules("${RIFT_MODULE_PATHS}" RIFT_MODULE_DIRS)
 
