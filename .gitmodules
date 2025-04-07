@@ -1,0 +1,27 @@
+[submodule "modules/Rift.Platform.Desktop.Windows"]
+	path = modules/Rift.Platform.Desktop.Windows
+	url = https://github.com/SpectralRift/Rift.Platform.Desktop.Windows
+[submodule "modules/Rift.Core.Runtime"]
+	path = modules/Rift.Core.Runtime
+	url = https://github.com/SpectralRift/RiftEngine.Core.Runtime
+[submodule "modules/Rift.OnlineSubsystem"]
+	path = modules/Rift.OnlineSubsystem
+	url = https://github.com/SpectralRift/Rift.OnlineSubsystem
+[submodule "modules/Rift.Runtime.Logging"]
+	path = modules/Rift.Runtime.Logging
+	url = https://github.com/SpectralRift/Rift.Runtime.Logging
+[submodule "modules/Rift.Input"]
+	path = modules/Rift.Input
+	url = https://github.com/SpectralRift/Rift.Input
+[submodule "modules/Rift.Backend.D3D9"]
+	path = modules/Rift.Backend.D3D9
+	url = https://github.com/SpectralRift/Rift.Backend.D3D9
+[submodule "modules/Rift.Backend.OpenGL"]
+	path = modules/Rift.Backend.OpenGL
+	url = https://github.com/SpectralRift/Rift.Backend.OpenGL.git
+[submodule "modules/Rift.Platform.Console.DKPNX"]
+	path = modules/Rift.Platform.Console.DKPNX
+	url = https://github.com/SpectralRift/Rift.Platform.Console.DKPNX
+[submodule "modules/Rift.Renderer.SimpleRenderer"]
+	path = modules/Rift.Renderer.SimpleRenderer
+	url = https://github.com/SpectralRift/Rift.Renderer.SimpleRenderer

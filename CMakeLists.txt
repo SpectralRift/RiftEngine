@@ -1,56 +1,45 @@
 cmake_minimum_required(VERSION 3.13.0)
 project(RiftEngine VERSION 1.0.0)
 
+if (NOT RIFT_TARGET)
+    message(FATAL_ERROR "Please define RIFT_TARGET in order to build for a specific target.")
+endif ()
+
+message(STATUS "SpectralRift Engine v${PROJECT_VERSION} for '${RIFT_TARGET}'")
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-function(rift_bundle_folder SOURCE_FOLDER)
-    if(NOT EXISTS ${SOURCE_FOLDER})
-        message(FATAL_ERROR "Source folder ${SOURCE_FOLDER} does not exist.")
-    endif()
+include(cmake/RiftBundleFolder.cmake)
+include(cmake/RiftJsonToList.cmake)
+include(cmake/RiftResolveModuleLibs.cmake)
+include(cmake/RiftIdentifyModules.cmake)
 
-    if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
-        set(TARGET_NAME ${CMAKE_PROJECT_NAME})
-    else()
-        get_directory_property(TARGETS BUILDSYSTEM_TARGETS)
-        if(TARGETS)
-            list(GET TARGETS 0 TARGET_NAME)
-        else()
-            message(FATAL_ERROR "No target found in ${CMAKE_CURRENT_SOURCE_DIR}. Ensure the module defines a target.")
-        endif()
-    endif()
+# internal variables begin
+# RIFT_ACTIVE_MODULES contains a list of all active modules that will be linked with this build of the engine
+set(RIFT_ACTIVE_MODULES Rift.Core.Runtime Rift.Input Rift.Runtime.Logging Rift.Renderer.SimpleRenderer)
 
-    set(DEST_FOLDER ${EXECUTABLE_OUTPUT_PATH}/DataRaw)
+# RIFT_MODULE_PATHS contains a list of all the directories in which we will look for the modules
+set(RIFT_MODULE_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/modules")
+# internal variables end
 
-    message(STATUS "Bundling folder '${SOURCE_FOLDER}' into '${DEST_FOLDER}' for target '${TARGET_NAME}'...")
+rift_identify_modules("${RIFT_MODULE_PATHS}" RIFT_MODULE_DIRS)
 
-    add_custom_command(
-            TARGET ${TARGET_NAME}
-            POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_directory
-            ${SOURCE_FOLDER}
-            ${DEST_FOLDER}
-            COMMENT "Bundled folder '${SOURCE_FOLDER}' to '${DEST_FOLDER}'"
-    )
-endfunction()
+# add module subdirs
+foreach (MODULE_DIR ${RIFT_MODULE_DIRS})
+    if (EXISTS "${MODULE_DIR}/CMakeLists.txt" AND EXISTS "${MODULE_DIR}/module.json")
+        file(READ "${MODULE_DIR}/module.json" MODULE_JSON)
 
-add_subdirectory(modules/RiftEngine.Core.Runtime)
-if (NINTENDO_SWITCH)
-    add_subdirectory(modules/RiftEngine.Platform.Console.DKPNX)
-else()
-    add_subdirectory(modules/RiftEngine.Platform.Desktop.Windows)
-    add_subdirectory(modules/Rift.Backend.D3D9)
-    add_subdirectory(modules/Rift.OnlineSubsystem.Steamworks)
-endif()
-add_subdirectory(modules/RiftEngine.Backend.OpenGL)
+        string(JSON MODULE_CMAKE_PROJECT GET "${MODULE_JSON}" "module" "cmakeProject")
+        string(JSON MODULE_NAME GET "${MODULE_JSON}" "module" "name")
+        string(REPLACE "." "_" SANITIZED_MODULE_NAME "${MODULE_NAME}")
 
-add_subdirectory(modules/Rift.Renderer.SimpleRenderer)
-add_subdirectory(modules/RiftEngine.UI.ImGui)
-add_subdirectory(modules/Rift.Runtime.Console)
-add_subdirectory(modules/Rift.Runtime.Logging)
-add_subdirectory(modules/Rift.Input)
-add_subdirectory(modules/Rift.OnlineSubsystem)
+        add_subdirectory("${MODULE_DIR}" "${CMAKE_BINARY_DIR}/ModuleBuild/${SANITIZED_MODULE_NAME}")
+    endif ()
+endforeach ()
 
-add_library(RiftEngine STATIC main.cpp)
+rift_resolve_module_libs("${RIFT_ACTIVE_MODULES}" RIFT_MODULE_LIBS)
 
-target_link_libraries(RiftEngine RiftEngine_Core_Runtime Rift_Renderer_SimpleRenderer Rift_UI_ImGui)
+add_library(RiftEngine STATIC src/EngineMain.cpp)
+
+target_link_libraries(RiftEngine ${RIFT_MODULE_LIBS})
